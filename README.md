@@ -19,11 +19,11 @@ avg / total       0.90      0.90      0.90      5842
 
 ```
 
-The script ```predict.py``` is an example script of the classification process which uses the classifier serialized through ```learn.py```. The script takes a folder with pickled tweepy Status objects of a user and prints out the prediction. Rather fake examples (as they were partially used for learning already) can be run on samples of status objects of two users:
+The script ```predict.py``` is an example script of the classification process which uses the classifier serialized through ```learn.py```. The script takes a folder with pickled tweepy Status objects of a user and prints out the prediction. Rather fake examples (as they were in part used for learning already) can be run on samples of status objects of two users:
 
 ```
 $ python predict.py status_samples/dfiser3/
-private
+private [ 0.02420828  0.97579172]
 $ python predict.py status_samples/24UR/
-corporate
+corporate [ 0.67101796  0.32898204]
 ```
