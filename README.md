@@ -1,10 +1,13 @@
 # TweetUsr - a possible future tool for Twitter user profiling
 
-The script ```features.py``` contains the ```extract_features``` function which returns a list of features for a list of tweepy Status objects. The main program of the script is used to extract features from a local dataset of SLovene tweets. The extracts are, however, included in the repository (````X.pickle```,```Y1.pickle``` and ```Y2.pickle```).
+The script ```features.py``` contains the ```extract_features(statuses)``` function which returns a list of features for a list of tweepy Status objects.
 
-The script ```learn.py``` uses the datasets serialized by ```features.py``, performs grid search, reports a classification report of the optimized classifier and trains and serializes an SVM classifier learned on all data.
+The main program of the script is used to extract features from a local dataset of Slovene tweets. The lack of this dataset in the repo can be circumvented in three ways:
+- one can use the feature extracts that are included in the repository (````X.pickle```,```Y1.pickle``` and ```Y2.pickle```, Y1 contain a 5-class target, Y2 the used 2-class target)
+- the file ```annotated_users``` contains Twitter user names and their annotations by both schemata, one can use tweepy to download the timeline of those users
+- one can go over to the prediction directly as the serialization of the classification model is included in the repo (see below)
 
-The classification report is this:
+The script ```learn.py``` uses the ```*.pickle``` datasets serialized by ```features.py```, performs grid search, reports a classification report of the optimized classifier (below) and trains and serializes an SVM classifier with optimized hyperparameters which is learned on all Slovene data.
 
 ```
              precision    recall  f1-score   support
@@ -16,11 +19,11 @@ avg / total       0.90      0.90      0.90      5842
 
 ```
 
-The script ```predict.py``` is an exemplary classification process using the classifier serialized through ```learn.py```. The script takes a folder with a users' pickled tweepy Status objects and prints out the prediction. Rather fake examples (as they were learned on) are these:
+The script ```predict.py``` is an example script of the classification process which uses the classifier serialized through ```learn.py```. The script takes a folder with pickled tweepy Status objects of a user and prints out the prediction. Rather fake examples (as they were partially used for learning already) can be run on samples of status objects of two users:
 
 ```
-$ python predict.py /home/nikola/tools/tweetpub/statuses/dfiser3/
-['private']
-$ python predict.py /home/nikola/tools/tweetpub/statuses/24UR/
-['corporate']
+$ python predict.py status_samples/dfiser3/
+private
+$ python predict.py status_samples/24UR/
+corporate
 ```

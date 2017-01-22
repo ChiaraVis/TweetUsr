@@ -101,11 +101,7 @@ if __name__=='__main__':
   x_names=['mean_len_text','median_len_text','variance_len_text','percentage_http','percentage_mention','percentage_hash','percentage_question','percentage_ellipsis','percentage_comma','percentage_exclamation','percentage_emoji','percentage_inreply','mean_retweet_count','median_retweet_count','variance_retweet_count','percentage_retweeted','mean_favorite_count','median_favorite_count','variance_favorite_count','percentage_favorited','percentage_is_quote','mean_hour','median_hour','variance_hour','mean_day','median_day','variance_day','percentage_working_hours','percentage_weekend','percentage_web_client','percentage_truncated','user_statuses_count','user_statuses_per_day','user_followers_count','user_friends_count','user_followers_friends_ratio','user_listed_count','user_favourites_count']
   Y1=[]
   Y2=[]
-  X_text=[]
 
-  balance=False
-  count=0
-  num_statuses=[]
   users=os.listdir('/home/nikola/tools/tweetpub/statuses/')
   for user_num,user in enumerate(users):
     if user not in y1:
@@ -116,14 +112,10 @@ if __name__=='__main__':
     # we take into account only users with 100 or more tweets
     if len(files)<100:
       continue
-    count+=1
-    print count,user,
     for file in files:
       statuses.append(pickle.load(open('/home/nikola/tools/tweetpub/statuses/'+user+'/'+file)))
-    num_statuses.append(len(statuses))
     print 'loaded',
     ### text for bow ###
-    X_text.append(' '.join([e.text for e in statuses]))
     X.append(extract_features(statuses))
     Y1.append(y1[user])
     Y2.append(y2[user])
@@ -134,5 +126,3 @@ if __name__=='__main__':
   pickle.dump(X,open('X.pickle','w'),1)
   pickle.dump(Y1,open('Y1.pickle','w'),1)
   pickle.dump(Y2,open('Y2.pickle','w'),1)
-  pickle.dump(X_text,open('X_text.pickle','w'),1)
-  print np.mean(num_statuses),np.median(num_statuses)
